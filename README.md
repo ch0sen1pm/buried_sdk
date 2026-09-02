@@ -93,8 +93,26 @@ int main() {
 └── vcpkg.json        依赖清单
 ```
 
-## 📝 TODO
+## 🗺 Roadmap
 
-- [ ] 核心模块实现
-- [ ] 单元测试
-- [ ] 端到端联调
+### 基础 & 构建
+
+- [ ] `vcpkg.json` 依赖清单（boost-asio/beast/date-time、spdlog、mbedtls、sqlite-orm、nlohmann-json）
+- [ ] 顶层 `CMakeLists.txt` + `src/CMakeLists.txt`（find_package + target_link_libraries）
+- [x] README + .gitignore
+
+### 核心模块（自底向上，按依赖顺序）
+
+- [ ] **Context** —— 并发底座：双 io_context + 双 strand + 双线程，Meyers 单例
+- [ ] **CommonService** —— 设备信息采集：device_id（注册表持久化）、系统版本、机器名、进程时间、随机 id
+- [ ] **Crypt** —— AES-256-CBC 加解密，PBKDF2 派生密钥（mbedtls）
+- [ ] **Database** —— SQLite 本地缓存，sqlite_orm 建表 / 增删查（按优先级 + limit）
+- [ ] **HttpReporter** —— boost.beast 同步 HTTP POST 客户端
+- [ ] **BuriedReport** —— 上报引擎：InsertData → 加密落库 → 5s 定时批量 → 解密组 JSON → HTTP → 成功删除
+- [ ] **Buried 核心 + C API** —— buried_core + buried.cc + include/buried.h，打通 DLL 接口
+
+### 验证 & 收尾
+
+- [ ] **examples** —— 调用示例，编译跑通
+- [ ] **server** —— 本地接收服务器，端到端联调
+- [ ] **tests** —— 单元测试（gtest）
