@@ -97,14 +97,14 @@ int main() {
 
 ### 基础 & 构建
 
-- [ ] `vcpkg.json` 依赖清单（boost-asio/beast/date-time、spdlog、mbedtls、sqlite-orm、nlohmann-json）
+- [x] `vcpkg.json` 依赖清单（boost-asio/beast/date-time、spdlog、mbedtls、sqlite-orm、nlohmann-json）
 - [ ] 顶层 `CMakeLists.txt` + `src/CMakeLists.txt`（find_package + target_link_libraries）
 - [x] README + .gitignore
 
 ### 核心模块（自底向上，按依赖顺序）
 
 - [x] **Context** —— 并发底座：双 io_context + 双 strand + 双线程，Meyers 单例
-- [ ] **CommonService** —— 设备信息采集：device_id（注册表持久化）、系统版本、机器名、进程时间、随机 id
+- [ ] **CommonService** —— 设备信息采集：device_id（注册表持久化）、系统版本、机器名、进程时间、随机 id（`.h` 已完成，`.cc` 待写）
 - [ ] **Crypt** —— AES-256-CBC 加解密，PBKDF2 派生密钥（mbedtls）
 - [ ] **Database** —— SQLite 本地缓存，sqlite_orm 建表 / 增删查（按优先级 + limit）
 - [ ] **HttpReporter** —— boost.beast 同步 HTTP POST 客户端
