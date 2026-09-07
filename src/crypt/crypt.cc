@@ -43,4 +43,33 @@ std::string AESCrypt::GetKey(const std::string& salt,
     return std::string(reinterpret_cast<const char*>(key), kKeyLength);
 }
 
+class AESImpl {
+public:
+    explicit AESImpl(const std::string& key) {
+        Init(key.data(), key.size());
+    }
+
+    ~AESImpl() {
+        UnInit();
+    }
+
+    AESImpl(const AESImpl& other) = delete;
+    AESImpl& operator=(const AESImpl& other) = delete;
+
+    void Init(const char* key, size_t key_size);
+    void UnInit();
+
+    std::string Encrypt(const void* input, size_t input_size);
+    std::string Decrypt(const void* input, size_t input_size);
+
+private:
+    mbedtls_cipher_context_t encrypt_ctx_;
+    mbedtls_cipher_context_t decrypt_ctx_;
+
+    uint32_t encrypt_block_size = 0;
+    uint32_t decrypt_block_size = 0;
+
+    unsigned char iv_[16] = {0};
+};
+
 } // namespace buried
