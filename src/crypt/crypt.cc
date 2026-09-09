@@ -72,4 +72,48 @@ private:
     unsigned char iv_[16] = {0};
 };
 
+void AESImpl::Init(const char* key, size_t key_size) {
+    mbedtls_cipher_init(&encrypt_ctx_);
+
+    mbedtls_cipher_setup(
+        &encrypt_ctx_,
+        mbedtls_cipher_info_from_type(MBEDTLS_CIPHER_AES_256_CBC));
+
+    mbedtls_cipher_set_padding_mode(
+        &encrypt_ctx_,
+        MBEDTLS_PADDING_PKCS7);
+    
+    mbedtls_cipher_setkey(
+        &encrypt_ctx_,
+        reinterpret_cast<const unsigned char*>(key),
+        key_size * 8,
+        MBEDTLS_ENCRYPT);
+
+    encrypt_block_size = mbedtls_cipher_get_block_size(&encrypt_ctx_);
+
+    mbedtls_cipher_init(&decrypt_ctx_);
+
+    mbedtls_cipher_setup(
+        &decrypt_ctx_,
+        mbedtls_cipher_info_from_type(MBEDTLS_CIPHER_AES_256_CBC));
+    
+    mbedtls_cipher_set_padding_mode(
+        &decrypt_ctx_,
+        MBEDTLS_PADDING_PKCS7);
+    
+    mbedtls_cipher_setkey(
+        &decrypt_ctx_,
+        reinterpret_cast<const unsigned char*>(key),
+        key_size * 8,
+        MBEDTLS_DECRYPT);
+
+    decrypt_block_size = mbedtls_cipher_get_block_size(&decrypt_ctx_);
+
+}
+
+void AESImpl::UnInit() {
+    mbedtls_cipher_free(&encrypt_ctx_);
+    mbedtls_cipher_free(&decrypt_ctx_);
+}
+
 } // namespace buried
