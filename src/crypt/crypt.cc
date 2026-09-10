@@ -116,4 +116,75 @@ void AESImpl::UnInit() {
     mbedtls_cipher_free(&decrypt_ctx_);
 }
 
+std::string AESImpl::Encrypt(const void* input, size_t input_size) {
+    mbedtls_cipher_set_iv(&encrypt_ctx_, iv_, sizeof(iv_));
+
+    mbedtls_cipher_reset(&encrypt_ctx_);
+
+    std::string output(input_size + encrypt_block_size, '\0');
+
+    size_t output_size = 0;
+
+    int ret = mbedtls_cipher_update(
+        &encrypt_ctx_,
+        reinterpret_cast<const unsigned char*>(input),
+        input_size,
+        reinterpret_cast<unsigned char*>(output.data()),
+        &output_size);
+
+    if (ret != 0) {
+        return "";
+    }
+
+    size_t final_size = 0;
+
+    ret = mbedtls_cipher_finish(
+        &encrypt_ctx_,
+        reinterpret_cast<unsigned char*>(output.data()) + output_size,
+        &final_size);
+
+    if (ret != 0) {
+        return "";
+    }
+
+    output.resize(output_size + final_size);
+
+    return output;
+}
+
+std::string AESImpl::Decrypt(const void* input, size_t input_size) {
+    mbedtls_cipher_set_iv(&decrypt_ctx_, iv_, sizeof(iv_));
+
+    mbedtls_cipher_reset(&decrypt_ctx_);
+
+    std::string output(input_size + decrypt_block_size, '\0');
+
+    size_t output_size = 0;
+
+    int ret = mbedtls_cipher_update(
+        &decrypt_ctx_,
+        reinterpret_cast<const unsigned char*>(input),
+        input_size,
+        reinterpret_cast<unsigned char*>(output.data()),
+        &output_size);
+
+    if (ret != 0) {
+        return "";
+    }
+
+    size_t final_size = 0;
+
+    ret = mbedtls_cipher_finish(
+        &decrypt_ctx_,
+        reinterpret_cast<unsigned char*>(output.data()) + output_size,
+        &final_size);
+    
+    if (ret != 0) {
+        return "";
+    }
+    output.resize(output_size + final_size);
+
+    return output;
+}
+
 } // namespace buried
