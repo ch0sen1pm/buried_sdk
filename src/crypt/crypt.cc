@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cstdint>
+#include <memory>
 
 #include "mbedtls/cipher.h"
 #include "mbedtls/md.h"
@@ -185,6 +186,27 @@ std::string AESImpl::Decrypt(const void* input, size_t input_size) {
     output.resize(output_size + final_size);
 
     return output;
+}
+
+AESCrypt::AESCrypt(const std::string& key)
+    : impl_(std::make_unique<AESImpl>(key)) {}
+
+AESCrypt::~AESCrypt() {}
+
+std::string AESCrypt::Encrypt(const std::string& input) {
+    return impl_->Encrypt(input.data(), input.size());
+}
+
+std::string AESCrypt::Decrypt(const std::string& input) {
+    return impl_->Decrypt(input.data(), input.size());
+}
+
+std::string AESCrypt::Encrypt(const void* input, size_t input_size) {
+    return impl_->Encrypt(input, input_size);
+}
+
+std::string AESCrypt::Decrypt(const void* input, size_t input_size) {
+    return impl_->Decrypt(input, input_size);
 }
 
 } // namespace buried
