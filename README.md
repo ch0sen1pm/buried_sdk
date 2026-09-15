@@ -107,7 +107,7 @@ int main() {
 - [x] **CommonService** —— 设备信息采集：device_id（注册表持久化）、系统版本、机器名、进程时间、随机 id
 - [x] **Crypt** —— AES-256-CBC 加解密，PBKDF2 派生密钥（mbedtls）
 - [x] **Database** —— SQLite 本地缓存，sqlite_orm 建表 / 增删查（按优先级 + limit）
-- [ ] **HttpReporter** —— boost.beast 同步 HTTP POST 客户端
+- [x] **HttpReporter** —— boost.beast 同步 HTTP POST 客户端
 - [ ] **BuriedReport** —— 上报引擎：InsertData → 加密落库 → 5s 定时批量 → 解密组 JSON → HTTP → 成功删除
 - [ ] **Buried 核心 + C API** —— buried_core + buried.cc + include/buried.h，打通 DLL 接口
 
