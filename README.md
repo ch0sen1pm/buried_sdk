@@ -109,7 +109,7 @@ int main() {
 - [x] **Database** —— SQLite 本地缓存，sqlite_orm 建表 / 增删查（按优先级 + limit）
 - [x] **HttpReporter** —— boost.beast 同步 HTTP POST 客户端
 - [x] **BuriedReport** —— 上报引擎：InsertData → 加密落库 → 5s 定时批量 → 解密组 JSON → HTTP → 成功删除
-- [ ] **Buried 核心 + C API** —— buried_core + buried.cc + include/buried.h，打通 DLL 接口
+- [ ] **Buried 核心 + C API** —— 工作目录与 logger 初始化已完成；Start/Report 和 C API 待实现
 
 ### 验证 & 收尾
 
