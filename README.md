@@ -98,7 +98,7 @@ int main() {
 ### 基础 & 构建
 
 - [x] `vcpkg.json` 依赖清单（boost-asio/beast/date-time、spdlog、mbedtls、sqlite-orm、nlohmann-json）
-- [ ] 顶层 `CMakeLists.txt` + `src/CMakeLists.txt`（find_package + target_link_libraries）
+- [ ] 顶层 `CMakeLists.txt` + `src/CMakeLists.txt`（find_package + target_link_libraries，已写完待首次配置验证）
 - [x] README + .gitignore
 
 ### 核心模块（自底向上，按依赖顺序）
@@ -109,7 +109,7 @@ int main() {
 - [x] **Database** —— SQLite 本地缓存，sqlite_orm 建表 / 增删查（按优先级 + limit）
 - [x] **HttpReporter** —— boost.beast 同步 HTTP POST 客户端
 - [x] **BuriedReport** —— 上报引擎：InsertData → 加密落库 → 5s 定时批量 → 解密组 JSON → HTTP → 成功删除
-- [ ] **Buried 核心 + C API** —— 工作目录与 logger 初始化已完成；Start/Report 和 C API 待实现
+- [ ] **Buried 核心 + C API** —— Buried 核心（构造/日志/Start/Report）已完成；buried.cc C API 待实现
 
 ### 验证 & 收尾
 
