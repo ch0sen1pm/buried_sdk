@@ -1,0 +1,3 @@
+add_executable(buried_example buried_example.cc)
+
+target_link_libraries(buried_example PRIVATE Buried_static)
